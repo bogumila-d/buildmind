@@ -4,3 +4,11 @@ server:
 spring:
   application:
     name: webpage
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false  # Disable caching in development for real-time template updates
+
