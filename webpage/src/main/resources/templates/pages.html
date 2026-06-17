@@ -12,7 +12,7 @@
 
 <div class="form-container">
     <h2>Create New Page</h2>
-    <form method="post">
+    <form method="post" th:action="@{/pages}">
         <div class="form-group">
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
@@ -34,6 +34,11 @@
         <div class="page-title" th:text="${page.title}"></div>
         <div class="page-content" th:text="${page.content}"></div>
         <div class="page-date" th:text="'Created: ' + ${#dates.format(new java.util.Date(page.createdAt), 'yyyy-MM-dd HH:mm:ss')}"></div>
+        <div class="page-actions">
+            <form method="post" th:action="@{/pages/{id}/delete(id=${page.id})}" style="display: inline;">
+                <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this page?');">Delete</button>
+            </form>
+        </div>
     </div>
 </div>
 
