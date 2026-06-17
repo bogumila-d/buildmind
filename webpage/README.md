@@ -94,7 +94,26 @@ docker-compose logs -f webpage
 rm -rf build/
 rm -rf .gradle/
 ./gradlew build
+./gradlew clean build --refresh-dependencies
+./gradlew dependencies --configuration compileClasspath
 ```
+
+### Setup env vars
+``` bash
+./env.sh
+```
+
+## MongoDB Setup
+
+MongoDB is automatically started as a service in Docker Compose. The connection details are:
+- **Host**: mongodb-service (or localhost:27017 when running locally)
+- **Database**: webpage_db
+- **Username**: <username_placeholder>
+- **Password**: <password_placeholder>
+
+### Local MongoDB Connection
+If running locally without Docker, ensure MongoDB is running on `localhost:27017`.
+
 
 
 ## Dependencies

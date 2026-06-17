@@ -1,10 +1,41 @@
 services:
   webpage:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: webpage-service
     ports:
       - "8080:8080"
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://${MONGO_DB_USER}:${MONGO_DB_PWD}@cluster0.qyofy8d.mongodb.net/${MONGO_DB_NAME}?appName=Cluster0&serverSelectionTimeoutMS=10000&connectTimeoutMS=10000
+    depends_on:
+      - mongo
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - webpage-network
+
+
+  mongo:
+    image: mongo:7.0
+    container_name: mongodb-service
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PWD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - webpage-network
+
+volumes:
+  mongo_data:
+    driver: local
+
+networks:
+  webpage-network:
+    driver: bridge

@@ -1,9 +1,31 @@
 server:
   port: 8080
+  shutdown: graceful
+
 
 spring:
   application:
-    name: webpage
+    name: webpage-service
+  data:
+    mongodb:
+      uri: mongodb+srv://${MONGO_DB_USER}:${MONGO_DB_PWD}@cluster0.qyofy8d.mongodb.net/${MONGO_DB_NAME}?appName=Cluster0
+      auto-index-creation: true
+  boot:
+    admin:
+      ui:
+        enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
 
   thymeleaf:
     prefix: classpath:/templates/

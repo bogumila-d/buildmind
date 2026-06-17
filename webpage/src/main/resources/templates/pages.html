@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pages Management</title>
+    <link rel="stylesheet" th:href="@{/css/pages.css}">
+</head>
+<body>
+<h1>Pages Management</h1>
+
+<div th:if="${message}" class="message" th:text="${message}"></div>
+
+<div class="form-container">
+    <h2>Create New Page</h2>
+    <form method="post">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" required></textarea>
+        </div>
+        <button type="submit">Create Page</button>
+    </form>
+</div>
+
+<div class="pages-list">
+    <h2>All Pages</h2>
+    <div th:if="${pages.isEmpty()}" style="color: #999;">
+        No pages created yet.
+    </div>
+    <div th:each="page : ${pages}" class="page-item">
+        <div class="page-title" th:text="${page.title}"></div>
+        <div class="page-content" th:text="${page.content}"></div>
+        <div class="page-date" th:text="'Created: ' + ${#dates.format(new java.util.Date(page.createdAt), 'yyyy-MM-dd HH:mm:ss')}"></div>
+    </div>
+</div>
+
+<hr style="margin-top: 30px;">
+<a href="/">Back to Home</a>
+</body>
+</html>
